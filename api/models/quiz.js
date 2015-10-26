@@ -1,5 +1,4 @@
 var mongoose = require("mongoose");
-var request = require("request");
 
 var quizSchema = new mongoose.Schema({
   question: String,
@@ -7,4 +6,4 @@ var quizSchema = new mongoose.Schema({
   answer: String
 });
 
-module.exports = mongoose.model("Country", countrySchema);
+module.exports = mongoose.model("Quiz", quizSchema);
