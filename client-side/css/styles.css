@@ -14,7 +14,7 @@ body {
 
 .correct {
   background-color: green !important;
-  stroke: green;
+  fill: green !important;
 }
 
 svg {

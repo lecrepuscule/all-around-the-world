@@ -31,7 +31,7 @@ angular.module("AAW")
                 console.log(geography);
                 if (geography.properties.name === scope.qc.currentQuestion.answer) {
                   console.log("right answer!")
-                  // self.classList.add("correct");
+                  self.classList.add("correct");
                   scope.qc.score++;
                 }
                 scope.qc.currentCount++;
