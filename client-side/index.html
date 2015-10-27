@@ -6,18 +6,28 @@
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/topojson/1.6.19/topojson.min.js"></script>
   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/angular-pusher/0.0.14/angular-pusher.min.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
   <script type="text/javascript" src="js/lib/d3Service.js"></script>
   <script type="text/javascript" src="js/lib/mapService.js"></script>
   <script type="text/javascript" src="js/directives/mapViewDirective.js"></script>
-  <script type="text/javascript" src="js/factories/quizFactory.js"></script>
-  <script type="text/javascript" src="js/controllers/quizController.js"></script>
+  <script type="text/javascript" src="js/factories/gameFactory.js"></script>
+  <script type="text/javascript" src="js/controllers/gameController.js"></script>
   <title>AAW</title>
 </head>
-<body ng-controller="QuizController as qc">
-  <div map id="map"></div>
-  <h1>{{ qc.currentQuestion.question }}</h1>
-  <h4>current score: {{ qc.score }}</h1>
+<body ng-controller="GameController as gc">
+  <form ng-submit="gc.createGame()">
+    <label for="name">Name</label>
+    <input id="name" type="text" ng-model="gc.currentPlayer.name" placeholder="name">
+    <input class="button" type="submit" value="Host New Game">
+  </form>
+
+  <ul>
+    <li ng-repeat="game in gc.games">{{ game.host }}</li>
+  </ul>
+<!--   <div map id="map"></div>
+  <h1>{{ gc.currentQuestion.question }}</h1>
+  <h4>current score: {{ gc.score }}</h1> -->
 
 </body>
 </html>

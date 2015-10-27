@@ -29,13 +29,13 @@ angular.module("AAW")
               scope.$apply(function(){
                 console.log(self)
                 console.log(geography);
-                if (geography.properties.name === scope.qc.currentQuestion.answer) {
+                if (geography.properties.name === scope.gc.currentQuestion.answer) {
                   console.log("right answer!")
                   self.classList.add("correct");
-                  scope.qc.score++;
+                  scope.gc.score++;
                 }
-                scope.qc.currentCount++;
-                scope.qc.currentQuestion = scope.qc.all[scope.qc.currentCount];
+                scope.gc.currentCount++;
+                scope.gc.currentQuestion = scope.gc.all[scope.gc.currentCount];
               })
                 // alert(geography.properties.name);
             });

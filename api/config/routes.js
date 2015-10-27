@@ -3,8 +3,11 @@ var router = express.Router();
 var bodyParser = require('body-parser');
 var apiController = require('../controllers/api.js');
 
-// Event
 router.route('/api/quizzes')
   .get(apiController.quizSet);
+
+router.route('/api/games')
+  .get(apiController.getGames)
+  .post(apiController.createGame);
 
 module.exports = router;
