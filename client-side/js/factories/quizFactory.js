@@ -16,5 +16,6 @@ function QuizFactory($q, $http){
     })
     return deferred.promise;
   }
+
   return this;
 }

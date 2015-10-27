@@ -3,7 +3,7 @@ angular.module("AAW")
   var directive = {};
   directive.restrict = "EA";
   directive.scope = false;
-  directive.template = "<h1>{{ qc.currentQuestion.question }}</h1>" + "<h1>{{ qc.currentQuestion.currentCount }}</h1>";
+
   directive.link = function(scope, element, attrs) {
     d3Service.d3().then(function(d3) {
       mapService.datamaps().then(function(datamaps){
@@ -25,16 +25,17 @@ angular.module("AAW")
           },
           done: function(datamap) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+              var self = this;
               scope.$apply(function(){
-                console.log(scope.qc)
-                console.log(scope.qc.currentQuestion.answer)
-                console.log(scope.qc.currentCount)
+                console.log(self)
                 console.log(geography);
                 if (geography.properties.name === scope.qc.currentQuestion.answer) {
                   console.log("right answer!")
-                  scope.qc.currentCount++
-                  scope.qc.currentQuestion = scope.qc.all[scope.qc.currentCount]
+                  // self.classList.add("correct");
+                  scope.qc.score++;
                 }
+                scope.qc.currentCount++;
+                scope.qc.currentQuestion = scope.qc.all[scope.qc.currentCount];
               })
                 // alert(geography.properties.name);
             });
