@@ -10,10 +10,13 @@
   <script type="text/javascript" src="js/lib/d3Service.js"></script>
   <script type="text/javascript" src="js/lib/mapService.js"></script>
   <script type="text/javascript" src="js/directives/mapViewDirective.js"></script>
+  <script type="text/javascript" src="js/factories/quizFactory.js"></script>
+  <script type="text/javascript" src="js/controllers/quizController.js"></script>
   <title>AAW</title>
 </head>
-<body>
+<body ng-controller="QuizController as qc">
   <div map id="map"></div>
-  
+  <h1>{{ qc.currentQuestion.question }}</h1>
+
 </body>
 </html>
