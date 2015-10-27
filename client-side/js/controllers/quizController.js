@@ -4,8 +4,8 @@ function QuizController(QuizFactory){
   var vm = this;
 
   vm.all = [];
-  vm.currentCount;
-  vm.currentQuestion;
+  vm.currentCount=0;
+  vm.currentQuestion=vm.all[vm.currentCount];
 
   QuizFactory.getQuizzes()
   .then(function(response){

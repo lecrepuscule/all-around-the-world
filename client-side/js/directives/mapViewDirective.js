@@ -24,7 +24,15 @@ angular.module("AAW")
           },
           done: function(datamap) {
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
+                console.log(scope.qc)
+                console.log(scope.qc.currentQuestion.answer)
+                console.log(scope.qc.currentCount)
                 console.log(geography);
+                if (geography.properties.name === scope.qc.currentQuestion.answer) {
+                  console.log("right answer!")
+                  scope.qc.currentCount++
+                  scope.qc.currentQuestion = scope.qc.all[scope.qc.currentCount]
+                }
                 // alert(geography.properties.name);
             });
           },
