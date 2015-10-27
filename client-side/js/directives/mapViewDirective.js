@@ -6,8 +6,11 @@ angular.module("AAW")
   directive.link = function(scope, element, attrs) {
     d3Service.d3().then(function(d3) {
       mapService.datamaps().then(function(datamaps){
+        console.log(element[0])
         var map = new Datamap({
           element: element[0],
+          // height: 400,
+          // width: 1000,
           projection: 'mercator',
           fills: {
             // defaultFill: "#ABDDA4",
@@ -24,7 +27,13 @@ angular.module("AAW")
                 console.log(geography);
                 // alert(geography.properties.name);
             });
-          }
+          },
+          // arcConfig: {
+          //   strokeColor: '#DD1C77',
+          //   strokeWidth: 10,
+          //   arcSharpness: 10,
+          //   animationSpeed: 600
+          // }
         });
 
         d3.select(window).on('resize', function() {
