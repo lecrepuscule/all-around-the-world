@@ -24,7 +24,7 @@ function GameController(GameFactory, Pusher, $state){
     GameFactory.createGame(vm.currentPlayer).then(function(response){
       console.log(response);
       vm.stagedGame = response;
-      $state.go = ("staging");
+      $state.go("staging");
       // vm.games.push(response); 
     })
   }
@@ -36,7 +36,7 @@ function GameController(GameFactory, Pusher, $state){
       console.log(response)
       console.log("above is the response")
       vm.stagedGame = response;
-      $state.go = ("staging");
+      $state.go("staging");
     })
   }
 
