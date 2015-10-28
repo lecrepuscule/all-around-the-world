@@ -16,6 +16,20 @@ function GameFactory($q, $http){
   //   return deferred.promise;
   // }
 
+  this.startGame = function(game){
+    var deferred = $q.defer();
+    $http
+      .get("http://localhost:3000/api/games/" + game._id)
+      .success(function(response){
+        console.log(response)
+        deferred.resolve(response);
+      })
+      .error(function(error){
+        deferred.reject(error);
+      })
+    return deferred.promise;
+  }
+
   this.joinGame = function(game, player){
     var deferred = $q.defer();
     var newPlayer = {
@@ -25,7 +39,6 @@ function GameFactory($q, $http){
     $http
       .put("http://localhost:3000/api/games/" + game._id , newPlayer)
       .success(function(response){
-        console.log("response to the Factory is ")
         console.log(response)
         deferred.resolve(response);
       })

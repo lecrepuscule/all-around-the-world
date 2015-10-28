@@ -1,5 +1,5 @@
 var Country = require("../models/country.js");
-var Quiz = require("../models/quiz.js");
+// var Quiz = require("../models/quiz.js");
 var Game = require("../models/game.js");
 
 var Pusher = require('pusher');
@@ -10,13 +10,13 @@ var pusher = new Pusher({
 });
 
 
-function quizSet(req, res){
-  Quiz.find({}, function(err, quizzes){
-    if (err) console.log(err);
-    console.log(quizzes);
-    // res.json(quizzes);
-  })
-}
+// function quizSet(req, res){
+//   Quiz.find({}, function(err, quizzes){
+//     if (err) console.log(err);
+//     console.log(quizzes);
+//     // res.json(quizzes);
+//   })
+// }
 
 function getGames(req, res){
   Game.find({}, function(err, games){
@@ -59,12 +59,25 @@ function deleteGame(req, res){
 }
 
 function startGame(req, res){
-
+  Game.findById(req.params.id, function(err, game){
+    if (err) console.log(err);
+    game.initiate(function(initiatedGame){
+      initiatedGame.nextQuiz(function(nextQuiz){
+        var gameStatus = {
+          _id: initiatedGame._id,
+          players: initiatedGame.players,
+          open: initiatedGame.open,
+          quiz: nextQuiz
+        }
+        pusher.trigger('games', 'started', gameStatus);
+        res.json(gameStatus);
+      });
+    })
+  })
 }
   
 
 module.exports = {
-  quizSet: quizSet,
   getGames: getGames,
   createGame: createGame,
   joinGame: joinGame,

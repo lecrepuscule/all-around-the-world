@@ -23,6 +23,10 @@ function MainRouter($stateProvider, $urlRouterProvider){
       url: "/staging",
       templateUrl: "staging.html"
     })
+    .state("game", {
+      url: "/game",
+      templateUrl: "game.html"
+    })
     .state("login", {
       url: "/login",
       templateUrl: "login.html"

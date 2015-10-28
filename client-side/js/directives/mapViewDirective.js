@@ -32,10 +32,11 @@ angular.module("AAW")
                 if (geography.properties.name === scope.gc.currentQuestion.answer) {
                   console.log("right answer!")
                   self.classList.add("correct");
-                  scope.gc.score++;
+                  scope.gc.currentPlayer.score++;
                 }
+                scope.gc.currentQuestion.live = false;
                 scope.gc.currentCount++;
-                scope.gc.currentQuestion = scope.gc.all[scope.gc.currentCount];
+                scope.gc.currentQuestion = scope.gc.currentGame.quizzes[currentCount].quiz.question;
               })
                 // alert(geography.properties.name);
             });

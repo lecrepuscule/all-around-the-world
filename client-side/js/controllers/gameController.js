@@ -10,15 +10,23 @@ function GameController(GameFactory, Pusher, $state){
   vm.games = [];
   vm.stagedGame;
 
+  vm.currentQuestion;
+
   Pusher.subscribe('games', 'created', function (newGame) {
+    console.log("creating game triggered pusher")
     vm.games.push(newGame);
   });
 
   Pusher.subscribe('games', 'joined', function (joinedGame) {
+    console.log("joining game triggered pusher")
     vm.stagedGame = joinedGame;
   });
 
-
+  Pusher.subscribe('games', 'started', function (startedGame) {
+    console.log("from pusher started game");
+    console.log(startedGame);
+    vm.currentQuestion = startedGame.quiz;
+  });
 
   vm.getGames = function(){
     GameFactory.getGames().then(function(response){
@@ -56,8 +64,9 @@ function GameController(GameFactory, Pusher, $state){
   }
 
   vm.startGame = function(game){
-    vm.getQuizzes(game);
-
+    GameFactory.startGame(game).then(function(response){
+      $state.go("game");
+    })
   }
 
   vm.getQuizzes = function(game){
