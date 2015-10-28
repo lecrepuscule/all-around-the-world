@@ -19,9 +19,9 @@ function MainRouter($stateProvider, $urlRouterProvider){
       url: "/",
       templateUrl: "home.html"
     })
-    .state("archive", {
-      url: "/archive",
-      templateUrl: "archive.html"
+    .state("staging", {
+      url: "/staging",
+      templateUrl: "staging.html"
     })
     .state("login", {
       url: "/login",

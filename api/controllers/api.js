@@ -37,7 +37,20 @@ function createGame(req, res){
 }
 
 function joinGame(req, res){
-
+  console.log(req.params.id);
+  var newPlayer = req.body
+  console.log(newPlayer);
+  Game.findById(req.params.id, function(err, game){
+    if (err) console.log(err);
+    game.players.push(newPlayer);
+    game.save(function(err, joinedGame){
+      if (err) console.log(err);
+      pusher.trigger('games', 'joined', joinedGame);
+      console.log("joined into game: ")
+      console.log(joinedGame);
+      res.json(joinedGame);
+    })
+  })
 }
 
 function startGame(req, res){

@@ -3,7 +3,6 @@ angular.module("AAW")
 
 function GameFactory($q, $http){
   console.log("got this far");
-  var deferred = $q.defer();
 
   this.getQuizzes = function(){
     $http
@@ -17,7 +16,27 @@ function GameFactory($q, $http){
     return deferred.promise;
   }
 
+  this.joinGame = function(game, player){
+    var deferred = $q.defer();
+    var newPlayer = {
+      name: player.name,
+      score: 0
+    }
+    $http
+      .put("http://localhost:3000/api/games/" + game._id , newPlayer)
+      .success(function(response){
+        console.log("response to the Factory is ")
+        console.log(response)
+        deferred.resolve(response);
+      })
+      .error(function(error){
+        deferred.reject(error);
+      })
+    return deferred.promise;
+  }
+
   this.createGame = function(newPlayer){
+    var deferred = $q.defer();
     var newGame = {
       host: newPlayer.name,
       players: [newPlayer],
@@ -36,6 +55,7 @@ function GameFactory($q, $http){
   }
 
   this.getGames = function(){
+    var deferred = $q.defer();
     $http
       .get("http://localhost:3000/api/games")
       .success(function(response){

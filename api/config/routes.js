@@ -10,4 +10,7 @@ router.route('/api/games')
   .get(apiController.getGames)
   .post(apiController.createGame);
 
+router.route('/api/games/:id')
+  .put(apiController.joinGame)
+
 module.exports = router;

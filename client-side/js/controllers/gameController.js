@@ -1,6 +1,6 @@
 angular.module("AAW").controller("GameController", GameController);
 
-function GameController(GameFactory, Pusher){
+function GameController(GameFactory, Pusher, $state){
   var vm = this;
 
   vm.currentPlayer = {
@@ -8,6 +8,7 @@ function GameController(GameFactory, Pusher){
     score: 0
   };
   vm.games = [];
+  vm.stagedGame;
 
   Pusher.subscribe('games', 'created', function (newGame) {
     vm.games.push(newGame);
@@ -22,12 +23,21 @@ function GameController(GameFactory, Pusher){
   vm.createGame = function(){
     GameFactory.createGame(vm.currentPlayer).then(function(response){
       console.log(response);
+      vm.stagedGame = response;
+      $state.go = ("staging");
       // vm.games.push(response); 
     })
   }
 
   vm.joinGame = function(game){
-    game.players.push(vm.newPlayer)
+    // game.players.push(vm.newPlayer)
+    GameFactory.joinGame(game, vm.currentPlayer).then(function(response){
+      console.log("joined into game: ")
+      console.log(response)
+      console.log("above is the response")
+      vm.stagedGame = response;
+      $state.go = ("staging");
+    })
   }
 
   vm.startGame = function(game){

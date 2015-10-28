@@ -2,8 +2,17 @@
     <label for="name">Name</label>
     <input id="name" type="text" ng-model="gc.currentPlayer.name" placeholder="name">
     <input class="button" type="submit" value="Host New Game">
-  </form>
+</form>
 
 <ul>
-  <li ng-repeat="game in gc.games">{{ game.host }}</li>
+  <li ng-repeat="game in gc.games">
+    <p>hosted by: {{ game.host }}</p>
+    <form ng-if="gc.stagedGame._id === game._id">
+      <label for="playerName">Name</label>
+      <input name="playerName" type="text" ng-model="gc.currentPlayer.name">
+      <button ng-click="gc.stagedGame={}">Cancel</button>
+      <input ng-click="gc.joinGame(game)" type="submit" value="Confirm and Join">
+    </form>
+    <a ng-click="gc.stagedGame={ _id: game._id, players: game.players}" href="#">Join</a>
+  </li>
 </ul>
