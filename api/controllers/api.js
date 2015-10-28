@@ -12,7 +12,6 @@ var pusher = new Pusher({
 function getGames(req, res){
   Game.find({}, function(err, games){
     if (err) console.log(err);
-    console.log(games);
     res.json(games);
   })
 }
@@ -21,7 +20,6 @@ function createGame(req, res){
   var newGame = new Game(req.body)
   newGame.save(function(err, createdGame){
     if (err) console.log(err);
-    console.log(createdGame);
     pusher.trigger('games', 'created', createdGame);
     res.json(createdGame);
   })
@@ -75,10 +73,9 @@ function nextTurn(req, res){
     var player = req.body.player;
     for (i=0; i<game.players.length; i++){
       if (game.players[i].name === player.name && game.players[i].score !== player.score) {
-        game.players[i] = player;
+        game.players[i].score = player.score;
         game.save(function(err, updatedGame){
           if (err) console.log(err);
-          console.log(updatedGame);
           updatedGame.nextQuiz(function(nextQuiz){
             var gameStatus = {
               _id: updatedGame._id,
