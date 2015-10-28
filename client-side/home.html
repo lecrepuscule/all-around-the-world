@@ -1,0 +1,9 @@
+<form ng-submit="gc.createGame()">
+    <label for="name">Name</label>
+    <input id="name" type="text" ng-model="gc.currentPlayer.name" placeholder="name">
+    <input class="button" type="submit" value="Host New Game">
+  </form>
+
+<ul>
+  <li ng-repeat="game in gc.games">{{ game.host }}</li>
+</ul>
