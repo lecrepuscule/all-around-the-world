@@ -76,11 +76,49 @@ function startGame(req, res){
   })
 }
   
+function nextTurn(req, res){
+  Game.findById(req.params.id, function(err, game){
+    if (err) console.log(err);
+    var usedQuiz = req.body.usedQuiz;
+    var player = req.body.player;
+    for (i=0; i<game.players.length; i++){
+      if (game.players[i].name === player.name && game.players[i].score !== player.score) {
+        game.players[i] = player;
+        game.save(function(err, updatedGame){
+          if (err) console.log(err);
+          console.log(updatedGame);
+          updatedGame.nextQuiz(function(nextQuiz){
+          var gameStatus = {
+            _id: updatedGame._id,
+            players: updatedGame.players,
+            open: updatedGame.open,
+            quiz: nextQuiz
+          }
+          pusher.trigger('games', 'updated', gameStatus);
+          res.json(gameStatus);
+        });
+        })
+      } else {
+        game.nextQuiz(function(nextQuiz){
+          var gameStatus = {
+            _id: game._id,
+            players: game.players,
+            open: game.open,
+            quiz: nextQuiz
+          }
+          pusher.trigger('games', 'updated', gameStatus);
+          res.json(gameStatus);
+        });
+      }
+    }
+  })
+}
 
 module.exports = {
   getGames: getGames,
   createGame: createGame,
   joinGame: joinGame,
   startGame: startGame,
-  deleteGame: deleteGame
+  deleteGame: deleteGame,
+  nextTurn: nextTurn
 }

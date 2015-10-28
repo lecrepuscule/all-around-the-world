@@ -4,18 +4,6 @@ angular.module("AAW")
 function GameFactory($q, $http){
   console.log("got this far");
 
-  // this.getQuizzes = function(){
-  //   $http
-  //   .get("http://localhost:3000/api/quizzes")
-  //   .success(function(response){
-  //     deferred.resolve(response);
-  //   })
-  //   .error(function(error){
-  //     deferred.reject(error);
-  //   })
-  //   return deferred.promise;
-  // }
-
   this.startGame = function(game){
     var deferred = $q.defer();
     $http
@@ -84,6 +72,20 @@ function GameFactory($q, $http){
     var deferred = $q.defer();
     $http
     .delete("http://localhost:3000/api/games/" + id)
+    .success(function(response){
+        console.log(response);
+        deferred.resolve(response);
+      })
+      .error(function(error){
+        deferred.reject(error);
+      })
+      return deferred.promise;
+  }
+
+  this.nextTurn = function(gameStatus, player){
+    var deferred = $q.defer();
+    $http
+    .patch("http://localhost:3000/api/games/" + gameStatus._id, {usedQuiz: gameStatus.quiz, player: player})
     .success(function(response){
         console.log(response);
         deferred.resolve(response);

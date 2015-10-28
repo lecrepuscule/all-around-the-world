@@ -27,16 +27,13 @@ angular.module("AAW")
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
               var self = this;
               scope.$apply(function(){
-                console.log(self)
                 console.log(geography);
                 if (geography.properties.name === scope.gc.currentQuestion.answer) {
                   console.log("right answer!")
                   self.classList.add("correct");
                   scope.gc.currentPlayer.score++;
                 }
-                scope.gc.currentQuestion.live = false;
-                scope.gc.currentCount++;
-                scope.gc.currentQuestion = scope.gc.currentGame.quizzes[currentCount].quiz.question;
+                scope.gc.nextTurn();
               })
                 // alert(geography.properties.name);
             });

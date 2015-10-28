@@ -1,9 +1,9 @@
 <h1>Staging Area</h1>
 
-<p>Host: {{ gc.stagedGame.host }}</p>
+<p>Host: {{ gc.currentGame.host }}</p>
 <p>Players: </p>
-<p ng-repeat="player in gc.stagedGame.players">{{ player.name }}</p>
+<p ng-repeat="player in gc.currentGame.players">{{ player.name }}</p>
 
-<button ng-if="gc.currentPlayer.name === gc.stagedGame.host" ng-click="gc.startGame(gc.stagedGame)">Start Game</button>
+<button ng-if="gc.currentPlayer.name === gc.currentGame.host" ng-click="gc.startGame(gc.currentGame)">Start Game</button>
 
-<button ng-if="gc.currentPlayer.name === gc.stagedGame.host" ng-click="gc.abortGame(gc.stagedGame)">Abort</button>
+<button ng-if="gc.currentPlayer.name === gc.currentGame.host" ng-click="gc.abortGame(gc.currentGame)">Abort</button>

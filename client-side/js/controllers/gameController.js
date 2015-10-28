@@ -2,14 +2,13 @@ angular.module("AAW").controller("GameController", GameController);
 
 function GameController(GameFactory, Pusher, $state){
   var vm = this;
+  vm.games = [];
 
   vm.currentPlayer = {
     name: null,
     score: 0
   };
-  vm.games = [];
-  vm.stagedGame;
-
+  vm.currentGame;
   vm.currentQuestion;
 
   Pusher.subscribe('games', 'created', function (newGame) {
@@ -17,15 +16,22 @@ function GameController(GameFactory, Pusher, $state){
     vm.games.push(newGame);
   });
 
+  //need to change the channel to be dynamic
   Pusher.subscribe('games', 'joined', function (joinedGame) {
     console.log("joining game triggered pusher")
-    vm.stagedGame = joinedGame;
+    vm.currentGame = joinedGame;
   });
 
   Pusher.subscribe('games', 'started', function (startedGame) {
     console.log("from pusher started game");
     console.log(startedGame);
     vm.currentQuestion = startedGame.quiz;
+  });
+
+  Pusher.subscribe('games', 'updated', function (updatedGame) {
+    console.log("from pusher updated game");
+    console.log(updatedGame);
+    vm.currentQuestion = updatedGame.quiz;
   });
 
   vm.getGames = function(){
@@ -37,17 +43,14 @@ function GameController(GameFactory, Pusher, $state){
   vm.createGame = function(){
     GameFactory.createGame(vm.currentPlayer).then(function(response){
       console.log(response);
-      vm.stagedGame = response;
-      $state.go("staging");
-      // vm.games.push(response); 
+      vm.currentGame = response;
+      $state.go("staging"); 
     })
   }
 
   vm.joinGame = function(game){
-    // game.players.push(vm.newPlayer)
     GameFactory.joinGame(game, vm.currentPlayer).then(function(response){
-      // vm.stagedGame = response;
-      $state.go("staging");
+        $state.go("staging");
     })
   }
 
@@ -69,18 +72,24 @@ function GameController(GameFactory, Pusher, $state){
     })
   }
 
-  vm.getQuizzes = function(game){
-    QuizFactory.getQuizzes()
-    .then(function(response){
+  vm.nextTurn = function(){
+    GameFactory.nextTurn(vm.currentGame, vm.currentPlayer).then(function(response){
       console.log(response);
-      game.quizzes = response;
-      // vm.score = 0;
-      game.currentQuestion = game.quizzes[game.currentCount]
-      // console.log("currentQuestion is: ")
-      // console.log(vm.currentQuestion)
-      return response;
     })
   }
+
+  // vm.getQuizzes = function(game){
+  //   QuizFactory.getQuizzes()
+  //   .then(function(response){
+  //     console.log(response);
+  //     game.quizzes = response;
+  //     // vm.score = 0;
+  //     game.currentQuestion = game.quizzes[game.currentCount]
+  //     // console.log("currentQuestion is: ")
+  //     // console.log(vm.currentQuestion)
+  //     return response;
+  //   })
+  // }
 
   vm.getGames();
 
