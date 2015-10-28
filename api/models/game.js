@@ -22,6 +22,7 @@ gameSchema.methods.initiate = function(callback){
     vm.quizzes = quizzes.map(function(quiz){
       return {quiz: quiz, used: false}
     });
+    console.log("initiate triggered");
     vm.open = false;
     vm.save(function(err, updatedGame){
       if (err) console.log(err);
@@ -32,15 +33,24 @@ gameSchema.methods.initiate = function(callback){
 
 gameSchema.methods.nextQuiz = function(callback, usedQuiz){
   var vm = this;
-  var unusedQuizzes = vm.quizzes.filter(function(quiz){
+  console.log("total")
+  console.log(vm.quizzes.length)
+  var unusedQuizzes = vm.quizzes.filter(function(quiz, index){
     
     if ( usedQuiz && usedQuiz._id === (quiz.quiz).toString()) {
       console.log("inside filter function");
       console.log(quiz);
-      quiz.used = true;
+      console.log(index);
+      vm.quizzes[index].used = true;
+      vm.save(function(err, updatedGame){
+        console.log("what should be set to true is: ")
+        console.log(vm.quizzes[index])
+      });
     }
     return !quiz.used;
   })
+  console.log("reduced")
+  console.log(unusedQuizzes.length)
 
   var sampleIndex = Math.floor(Math.random()*unusedQuizzes.length);
 
