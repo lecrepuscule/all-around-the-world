@@ -3,3 +3,7 @@
 <p>Host: {{ gc.stagedGame.host }}</p>
 <p>Players: </p>
 <p ng-repeat="player in gc.stagedGame.players">{{ player.name }}</p>
+
+<button ng-if="gc.currentPlayer.name === gc.stagedGame.host" ng-click="gc.startGame(gc.stagedGame)">Start Game</button>
+
+<button ng-if="gc.currentPlayer.name === gc.stagedGame.host" ng-click="gc.abortGame(gc.stagedGame)">Abort</button>

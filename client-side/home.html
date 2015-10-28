@@ -5,7 +5,7 @@
 </form>
 
 <ul>
-  <li ng-repeat="game in gc.games">
+  <li ng-repeat="game in gc.games" ng-if="game.open">
     <p>hosted by: {{ game.host }}</p>
     <form ng-if="gc.stagedGame._id === game._id">
       <label for="playerName">Name</label>
@@ -13,6 +13,7 @@
       <button ng-click="gc.stagedGame={}">Cancel</button>
       <input ng-click="gc.joinGame(game)" type="submit" value="Confirm and Join">
     </form>
-    <a ng-click="gc.stagedGame={ _id: game._id, players: game.players}" href="#">Join</a>
+    <a ng-if="gc.stagedGame._id !== game._id" ng-click="gc.stagedGame={ _id: game._id, players: game.players}" href="#">Join</a>
+    <button ng-if="gc.currentPlayer.name === game.host" ng-click="gc.deleteGame(game._id, $index)">Delete</button>
   </li>
 </ul>

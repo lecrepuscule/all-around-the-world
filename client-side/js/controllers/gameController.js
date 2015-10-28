@@ -14,6 +14,12 @@ function GameController(GameFactory, Pusher, $state){
     vm.games.push(newGame);
   });
 
+  Pusher.subscribe('games', 'joined', function (joinedGame) {
+    vm.stagedGame = joinedGame;
+  });
+
+
+
   vm.getGames = function(){
     GameFactory.getGames().then(function(response){
       vm.games = response;
@@ -32,12 +38,21 @@ function GameController(GameFactory, Pusher, $state){
   vm.joinGame = function(game){
     // game.players.push(vm.newPlayer)
     GameFactory.joinGame(game, vm.currentPlayer).then(function(response){
-      console.log("joined into game: ")
-      console.log(response)
-      console.log("above is the response")
-      vm.stagedGame = response;
+      // vm.stagedGame = response;
       $state.go("staging");
     })
+  }
+
+  vm.abortGame = function(){
+
+  }
+
+  vm.deleteGame = function(id, index){
+    GameFactory.deleteGame(id)
+    .then(function(response){
+      console.log(response);
+      vm.games.splice(index,1);
+    });
   }
 
   vm.startGame = function(game){

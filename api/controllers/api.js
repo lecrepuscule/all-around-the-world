@@ -14,7 +14,7 @@ function quizSet(req, res){
   Quiz.find({}, function(err, quizzes){
     if (err) console.log(err);
     console.log(quizzes);
-    res.json(quizzes);
+    // res.json(quizzes);
   })
 }
 
@@ -46,10 +46,15 @@ function joinGame(req, res){
     game.save(function(err, joinedGame){
       if (err) console.log(err);
       pusher.trigger('games', 'joined', joinedGame);
-      console.log("joined into game: ")
-      console.log(joinedGame);
       res.json(joinedGame);
     })
+  })
+}
+
+function deleteGame(req, res){
+  Game.findByIdAndRemove(req.params.id, function(err, deletedGame){
+    if (err) console.log(err);
+    res.json(deletedGame);
   })
 }
 
@@ -63,5 +68,6 @@ module.exports = {
   getGames: getGames,
   createGame: createGame,
   joinGame: joinGame,
-  startGame: startGame
+  startGame: startGame,
+  deleteGame: deleteGame
 }

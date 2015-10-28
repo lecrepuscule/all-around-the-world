@@ -12,5 +12,6 @@ router.route('/api/games')
 
 router.route('/api/games/:id')
   .put(apiController.joinGame)
+  .delete(apiController.deleteGame)
 
 module.exports = router;
