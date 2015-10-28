@@ -9,15 +9,6 @@ var pusher = new Pusher({
   secret: process.env.PUSHER_SECRET
 });
 
-
-// function quizSet(req, res){
-//   Quiz.find({}, function(err, quizzes){
-//     if (err) console.log(err);
-//     console.log(quizzes);
-//     // res.json(quizzes);
-//   })
-// }
-
 function getGames(req, res){
   Game.find({}, function(err, games){
     if (err) console.log(err);
@@ -79,6 +70,7 @@ function startGame(req, res){
 function nextTurn(req, res){
   Game.findById(req.params.id, function(err, game){
     if (err) console.log(err);
+
     var usedQuiz = req.body.usedQuiz;
     var player = req.body.player;
     for (i=0; i<game.players.length; i++){
@@ -88,15 +80,15 @@ function nextTurn(req, res){
           if (err) console.log(err);
           console.log(updatedGame);
           updatedGame.nextQuiz(function(nextQuiz){
-          var gameStatus = {
-            _id: updatedGame._id,
-            players: updatedGame.players,
-            open: updatedGame.open,
-            quiz: nextQuiz
-          }
-          pusher.trigger('games', 'updated', gameStatus);
-          res.json(gameStatus);
-        });
+            var gameStatus = {
+              _id: updatedGame._id,
+              players: updatedGame.players,
+              open: updatedGame.open,
+              quiz: nextQuiz,
+            }
+            pusher.trigger('games', 'updated', gameStatus);
+            res.json(gameStatus);
+          }, usedQuiz);
         })
       } else {
         game.nextQuiz(function(nextQuiz){
@@ -104,11 +96,11 @@ function nextTurn(req, res){
             _id: game._id,
             players: game.players,
             open: game.open,
-            quiz: nextQuiz
+            quiz: nextQuiz,
           }
           pusher.trigger('games', 'updated', gameStatus);
           res.json(gameStatus);
-        });
+        }, usedQuiz);
       }
     }
   })

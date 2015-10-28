@@ -25,12 +25,14 @@ function GameController(GameFactory, Pusher, $state){
   Pusher.subscribe('games', 'started', function (startedGame) {
     console.log("from pusher started game");
     console.log(startedGame);
+    vm.currentGame = startedGame;
     vm.currentQuestion = startedGame.quiz;
   });
 
   Pusher.subscribe('games', 'updated', function (updatedGame) {
     console.log("from pusher updated game");
     console.log(updatedGame);
+    vm.currentGame = updatedGame;
     vm.currentQuestion = updatedGame.quiz;
   });
 
@@ -77,19 +79,6 @@ function GameController(GameFactory, Pusher, $state){
       console.log(response);
     })
   }
-
-  // vm.getQuizzes = function(game){
-  //   QuizFactory.getQuizzes()
-  //   .then(function(response){
-  //     console.log(response);
-  //     game.quizzes = response;
-  //     // vm.score = 0;
-  //     game.currentQuestion = game.quizzes[game.currentCount]
-  //     // console.log("currentQuestion is: ")
-  //     // console.log(vm.currentQuestion)
-  //     return response;
-  //   })
-  // }
 
   vm.getGames();
 

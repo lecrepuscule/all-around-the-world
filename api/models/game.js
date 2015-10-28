@@ -7,8 +7,10 @@ var gameSchema = new mongoose.Schema({
     name: String,
     score: Number
   }],
-  unusedQuizzes: [{type: mongoose.Schema.ObjectId, ref: "Quiz"}],
-  usedQuizzes: [{type: mongoose.Schema.ObjectId, ref: "Quiz"}],
+  quizzes: [{
+    quiz: {type: mongoose.Schema.ObjectId, ref: "Quiz"},
+    used: Boolean
+  }],
   open: Boolean
 });
 
@@ -17,7 +19,9 @@ gameSchema.methods.initiate = function(callback){
   Quiz.find({}, function(err, quizzes){
     if (err) console.log(err);
     // console.log(quizzes);
-    vm.unusedQuizzes = quizzes;
+    vm.quizzes = quizzes.map(function(quiz){
+      return {quiz: quiz, used: false}
+    });
     vm.open = false;
     vm.save(function(err, updatedGame){
       if (err) console.log(err);
@@ -28,16 +32,19 @@ gameSchema.methods.initiate = function(callback){
 
 gameSchema.methods.nextQuiz = function(callback, usedQuiz){
   var vm = this;
-  if (usedQuiz) {
-    Quiz.findById(usedQuiz._id, function(err, quiz){
-      var index = vm.unusedQuizzes.indexOf(quiz)
-      console.log(index);
-      this.unusedQuizzes.splice(index, 1);
-      this.usedQuizzes.push(quiz);
-    })
-  }
-  var sampleIndex = Math.floor(Math.random()* this.unusedQuizzes.length);
-    Quiz.findById(vm.unusedQuizzes[sampleIndex], function(err, nextQuiz){
+  var unusedQuizzes = vm.quizzes.filter(function(quiz){
+    
+    if ( usedQuiz && usedQuiz._id === (quiz.quiz).toString()) {
+      console.log("inside filter function");
+      console.log(quiz);
+      quiz.used = true;
+    }
+    return !quiz.used;
+  })
+
+  var sampleIndex = Math.floor(Math.random()*unusedQuizzes.length);
+
+    Quiz.findById(unusedQuizzes[sampleIndex].quiz, function(err, nextQuiz){
         if (err) console.log(err);
         callback(nextQuiz);
     });

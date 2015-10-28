@@ -83,6 +83,8 @@ function GameFactory($q, $http){
   }
 
   this.nextTurn = function(gameStatus, player){
+    console.log("nextTurn in factory");
+    console.log(gameStatus);
     var deferred = $q.defer();
     $http
     .patch("http://localhost:3000/api/games/" + gameStatus._id, {usedQuiz: gameStatus.quiz, player: player})
