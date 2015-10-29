@@ -30,13 +30,6 @@ function GameController(GameFactory, Pusher, $state, $interval){
     vm.currentQuestion = startedGame.quiz;
   });
 
-  // Pusher.subscribe('games', 'recorded', function (recordedGame) {
-  //   console.log("from pusher recorded game");
-  //   console.log(recordedGame);
-  //   vm.currentGame = updatedGame;
-  //   vm.currentQuestion = updatedGame.quiz;
-  // });
-
   Pusher.subscribe('games', 'updated', function (updatedGame) {
     console.log("from pusher updated game");
     console.log(updatedGame);
@@ -85,12 +78,13 @@ function GameController(GameFactory, Pusher, $state, $interval){
   }
 
   vm.recordScore = function(){
-    GameFactory.recordScore(vm.currentPlayer).then(function(response){
+    GameFactory.recordScore(vm.currentPlayer, vm.currentQuestion).then(function(response){
       console.log(response);
     })
   }
 
   vm.nextTurn = function(){
+
     GameFactory.nextTurn(vm.currentGame).then(function(response){
       console.log(response);
     })

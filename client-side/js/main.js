@@ -1,4 +1,4 @@
-angular.module("AAW", ["ui.router", "d3", "datamaps", "doowb.angular-pusher"])
+angular.module("AAW", ["ui.router", "d3", "datamaps", "doowb.angular-pusher", "timer"])
 .config(['PusherServiceProvider',
   function(PusherServiceProvider) {
     PusherServiceProvider

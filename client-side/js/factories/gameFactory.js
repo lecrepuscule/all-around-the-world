@@ -98,18 +98,21 @@ function GameFactory($q, $http){
       return deferred.promise;
   }
 
-  this.recordScore = function(player){
-    var deferred = $q.defer();
-    $http
-    .post("http://localhost:3000/api/games/" + gameStatus._id, player)
-    .success(function(response){
-        console.log(response);
-        deferred.resolve(response);
-      })
+  this.recordScore = function(player, question){
+    if (player.answer === question.answer) {
+      player.score++;
+      var deferred = $q.defer();
+      $http
+      .post("http://localhost:3000/api/games/" + gameStatus._id, player)
+      .success(function(response){
+          console.log(response);
+          deferred.resolve(response);
+        })
       .error(function(error){
         deferred.reject(error);
       })
       return deferred.promise;
+    }
   }
 
   return this;

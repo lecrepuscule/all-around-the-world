@@ -1,0 +1,22 @@
+{
+  "name": "client-side",
+  "homepage": "https://github.com/lecrepuscule/all-around-the-world",
+  "authors": [
+    "Yao Yuan <opal_obsidian@hotmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "humanize-duration": "~3.3.0",
+    "moment": "momentjs#~2.10.6"
+  }
+}
