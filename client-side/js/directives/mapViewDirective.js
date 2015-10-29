@@ -32,8 +32,15 @@ angular.module("AAW")
                   console.log("right answer!")
                   self.classList.add("correct");
                   scope.gc.currentPlayer.score++;
+                  scope.gc.nextTurn();
+                } else {
+                  self.classList.add("wrong");
+                  var countries = document.getElementsByClassName('datamaps-subunit')
+                  for(i=0; i<countries.length; i++){
+                    countries[i].removeEventListener('click');
+                  }
                 }
-                scope.gc.nextTurn();
+
               })
                 // alert(geography.properties.name);
             });
