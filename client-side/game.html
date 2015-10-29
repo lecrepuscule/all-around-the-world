@@ -1,6 +1,11 @@
   <div map id="map"></div>
+  <ul>
+    <li ng-repeat="player in gc.currentGame.players">
+      {{ player.name }}: {{ player.score }}
+    </li>
+  </ul>
   <h1>{{ gc.currentQuestion.question }}</h1>
-  <h4>current score: {{ gc.currentPlayer.score }}</h1>
-  <!-- <timer interval="1000" countdown="100">{{countdown}}</timer> -->
 
-  <timer countdown="10" interval="1000" finish-callback="gc.nextTurn()">{{seconds}} second{{secondsS}}</timer>
+  <h1 ng-if="gc.endTurn">{{ gc.currentQuestion.answer }}</h1>
+
+  <timer countdown="10" interval="1000" finish-callback="gc.nextTurn()">{{seconds}}</timer>

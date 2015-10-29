@@ -33,9 +33,12 @@ angular.module("AAW")
                   console.log(geography);
                   worldmap.geographyConfig.highlightOnHover = false;
                   worldmap.geographyConfig.popupOnHover = false;
+
                   clickedSubunit.classList.add("playerAnswer");
                   scope.gc.currentPlayer.answer = geography.properties.name;
                   console.log("added playerAnswer: " + scope.gc.currentPlayer.answer);
+
+                  scope.gc.recordScore();
                 })
               }
             });

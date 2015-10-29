@@ -69,7 +69,7 @@ function recordScore(req, res){
   Game.findById(req.params.id, function(err, game){
     if (err) console.log(err);
 
-    var player = req.body.player;
+    var player = req.body;
     for (i=0; i<game.players.length; i++){
       if (game.players[i].name === player.name && game.players[i].score !== player.score) {
         game.players[i].score = player.score;
@@ -93,8 +93,9 @@ function recordScore(req, res){
 function nextTurn(req, res){
   Game.findById(req.params.id, function(err, game){
     if (err) console.log(err);
-
-    var usedQuiz = req.body.usedQuiz;
+    console.log("used quiz is: ")
+    console.log(req.body);
+    var usedQuiz = req.body;
 
     // for (i=0; i<game.players.length; i++){
     //   if (game.players[i].name === player.name && game.players[i].score !== player.score) {

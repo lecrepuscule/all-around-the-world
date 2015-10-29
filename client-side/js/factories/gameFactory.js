@@ -98,10 +98,12 @@ function GameFactory($q, $http){
       return deferred.promise;
   }
 
-  this.recordScore = function(player, question){
-    if (player.answer === question.answer) {
+  this.recordScore = function(player, gameStatus){
+    var deferred = $q.defer();
+    if (player.answer === gameStatus.quiz.answer) {
       player.score++;
-      var deferred = $q.defer();
+      console.log("player score has become: " + player.score)
+
       $http
       .post("http://localhost:3000/api/games/" + gameStatus._id, player)
       .success(function(response){
@@ -111,8 +113,8 @@ function GameFactory($q, $http){
       .error(function(error){
         deferred.reject(error);
       })
-      return deferred.promise;
     }
+    return deferred.promise;
   }
 
   return this;
