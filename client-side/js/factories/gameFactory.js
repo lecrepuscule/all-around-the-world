@@ -82,12 +82,26 @@ function GameFactory($q, $http){
       return deferred.promise;
   }
 
-  this.nextTurn = function(gameStatus, player){
+  this.nextTurn = function(gameStatus){
     console.log("nextTurn in factory");
     console.log(gameStatus);
     var deferred = $q.defer();
     $http
-    .patch("http://localhost:3000/api/games/" + gameStatus._id, {usedQuiz: gameStatus.quiz, player: player})
+    .patch("http://localhost:3000/api/games/" + gameStatus._id, gameStatus.quiz)
+    .success(function(response){
+        console.log(response);
+        deferred.resolve(response);
+      })
+      .error(function(error){
+        deferred.reject(error);
+      })
+      return deferred.promise;
+  }
+
+  this.recordScore = function(player){
+    var deferred = $q.defer();
+    $http
+    .post("http://localhost:3000/api/games/" + gameStatus._id, player)
     .success(function(response){
         console.log(response);
         deferred.resolve(response);

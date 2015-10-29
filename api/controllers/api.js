@@ -64,42 +64,67 @@ function startGame(req, res){
     })
   })
 }
+
+function recordScore(req, res){
+  Game.findById(req.params.id, function(err, game){
+    if (err) console.log(err);
+
+    var player = req.body.player;
+    for (i=0; i<game.players.length; i++){
+      if (game.players[i].name === player.name && game.players[i].score !== player.score) {
+        game.players[i].score = player.score;
+        game.save(function(err, recordedGame){
+          if (err) console.log(err);
+        // updatedGame.nextQuiz(function(nextQuiz){
+          // var gameStatus = {
+          //   _id: updatedGame._id,
+          //   players: updatedGame.players,
+          //   open: updatedGame.open,
+          //   quiz: nextQuiz,
+          // }
+          // pusher.trigger('games', 'recorded', gameStatus);
+          res.json(recordedGame);   
+        })
+      }
+    }
+  })
+}
   
 function nextTurn(req, res){
   Game.findById(req.params.id, function(err, game){
     if (err) console.log(err);
 
     var usedQuiz = req.body.usedQuiz;
-    var player = req.body.player;
-    for (i=0; i<game.players.length; i++){
-      if (game.players[i].name === player.name && game.players[i].score !== player.score) {
-        game.players[i].score = player.score;
-        game.save(function(err, updatedGame){
-          if (err) console.log(err);
-          updatedGame.nextQuiz(function(nextQuiz){
-            var gameStatus = {
-              _id: updatedGame._id,
-              players: updatedGame.players,
-              open: updatedGame.open,
-              quiz: nextQuiz,
-            }
-            pusher.trigger('games', 'updated', gameStatus);
-            res.json(gameStatus);
-          }, usedQuiz);
-        })
-      } else {
-        game.nextQuiz(function(nextQuiz){
-          var gameStatus = {
-            _id: game._id,
-            players: game.players,
-            open: game.open,
-            quiz: nextQuiz,
-          }
-          pusher.trigger('games', 'updated', gameStatus);
-          res.json(gameStatus);
-        }, usedQuiz);
+
+    // for (i=0; i<game.players.length; i++){
+    //   if (game.players[i].name === player.name && game.players[i].score !== player.score) {
+    //     game.players[i].score = player.score;
+    //     game.save(function(err, updatedGame){
+    //       if (err) console.log(err);
+    //       updatedGame.nextQuiz(function(nextQuiz){
+    //         var gameStatus = {
+    //           _id: updatedGame._id,
+    //           players: updatedGame.players,
+    //           open: updatedGame.open,
+    //           quiz: nextQuiz,
+    //         }
+    //         pusher.trigger('games', 'updated', gameStatus);
+    //         res.json(gameStatus);
+    //       }, usedQuiz);
+    //     })
+    //   } else {
+    game.nextQuiz(function(nextQuiz){
+      var gameStatus = {
+        _id: game._id,
+        players: game.players,
+        open: game.open,
+        quiz: nextQuiz,
       }
-    }
+      pusher.trigger('games', 'updated', gameStatus);
+      res.json(gameStatus);
+    }, usedQuiz);
+  //     }
+  //   }
   })
 }
 
@@ -109,5 +134,6 @@ module.exports = {
   joinGame: joinGame,
   startGame: startGame,
   deleteGame: deleteGame,
+  recordScore: recordScore,
   nextTurn: nextTurn
 }

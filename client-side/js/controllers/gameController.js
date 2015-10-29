@@ -1,12 +1,13 @@
 angular.module("AAW").controller("GameController", GameController);
 
-function GameController(GameFactory, Pusher, $state){
+function GameController(GameFactory, Pusher, $state, $interval){
   var vm = this;
   vm.games = [];
 
   vm.currentPlayer = {
     name: null,
-    score: 0
+    score: 0,
+    answer: null
   };
   vm.currentGame;
   vm.currentQuestion;
@@ -29,11 +30,20 @@ function GameController(GameFactory, Pusher, $state){
     vm.currentQuestion = startedGame.quiz;
   });
 
+  // Pusher.subscribe('games', 'recorded', function (recordedGame) {
+  //   console.log("from pusher recorded game");
+  //   console.log(recordedGame);
+  //   vm.currentGame = updatedGame;
+  //   vm.currentQuestion = updatedGame.quiz;
+  // });
+
   Pusher.subscribe('games', 'updated', function (updatedGame) {
     console.log("from pusher updated game");
     console.log(updatedGame);
+    vm.currentPlayer.answer = null;
     vm.currentGame = updatedGame;
     vm.currentQuestion = updatedGame.quiz;
+    $state.go("game");
   });
 
   vm.getGames = function(){
@@ -74,8 +84,14 @@ function GameController(GameFactory, Pusher, $state){
     })
   }
 
+  vm.recordScore = function(){
+    GameFactory.recordScore(vm.currentPlayer).then(function(response){
+      console.log(response);
+    })
+  }
+
   vm.nextTurn = function(){
-    GameFactory.nextTurn(vm.currentGame, vm.currentPlayer).then(function(response){
+    GameFactory.nextTurn(vm.currentGame).then(function(response){
       console.log(response);
     })
   }

@@ -14,6 +14,7 @@ router.route('/api/games/:id')
   .get(apiController.startGame)
   .put(apiController.joinGame)
   .patch(apiController.nextTurn)
+  .post(apiController.recordScore)
   .delete(apiController.deleteGame)
 
 module.exports = router;

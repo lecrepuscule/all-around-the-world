@@ -17,6 +17,11 @@ body {
   fill: green !important;
 }
 
+.playerAnswer {
+  background-color: blue !important;
+  fill: blue !important;
+}
+
 svg {
   position: absolute;
   width: 100%

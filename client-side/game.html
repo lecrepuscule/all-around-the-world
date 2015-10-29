@@ -1,3 +1,4 @@
   <div map id="map"></div>
   <h1>{{ gc.currentQuestion.question }}</h1>
   <h4>current score: {{ gc.currentPlayer.score }}</h1>
+  <timer countdown="10" interval="1000" finish-callback="gc.nextTurn()">{{seconds}} second{{secondsS}}</timer>

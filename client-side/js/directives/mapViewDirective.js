@@ -15,42 +15,31 @@ angular.module("AAW")
           projection: 'mercator',
           fills: {
             // defaultFill: "#ABDDA4",
-            defaultFill: "blue"
+            defaultFill: "grey"
           },
           responsive: true,
           geographyConfig: {
             highlightOnHover: true,
             popupOnHover: true,
-            highlightFillColor: 'green'
+            highlightFillColor: 'blue'
           },
           done: function(datamap) {
+            var worldmap = this;
             datamap.svg.selectAll('.datamaps-subunit').on('click', function(geography) {
-              var self = this;
-              scope.$apply(function(){
-                console.log(geography);
-                if (geography.properties.name === scope.gc.currentQuestion.answer) {
-                  console.log("right answer!")
-                  self.classList.add("correct");
-                  scope.gc.currentPlayer.score++;
-                  scope.gc.nextTurn();
-                } else {
-                  self.classList.add("wrong");
-                  var countries = document.getElementsByClassName('datamaps-subunit')
-                  for(i=0; i<countries.length; i++){
-                    countries[i].removeEventListener('click');
-                  }
-                }
+              if (!scope.gc.currentPlayer.answer) {
+                var clickedSubunit = this;
 
-              })
-                // alert(geography.properties.name);
+                scope.$apply(function(){
+                  console.log(geography);
+                  worldmap.geographyConfig.highlightOnHover = false;
+                  worldmap.geographyConfig.popupOnHover = false;
+                  clickedSubunit.classList.add("playerAnswer");
+                  scope.gc.currentPlayer.answer = geography.properties.name;
+                  console.log("added playerAnswer: " + scope.gc.currentPlayer.answer);
+                })
+              }
             });
-          },
-          // arcConfig: {
-          //   strokeColor: '#DD1C77',
-          //   strokeWidth: 10,
-          //   arcSharpness: 10,
-          //   animationSpeed: 600
-          // }
+          }
         });
 
         d3.select(window).on('resize', function() {
