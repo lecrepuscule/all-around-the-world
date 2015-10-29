@@ -1,6 +1,6 @@
 angular.module("AAW").controller("GameController", GameController);
 
-function GameController(GameFactory, Pusher, $state, $interval){
+function GameController(GameFactory, Pusher, $state, $timeout){
   var vm = this;
   vm.games = [];
   vm.endTurn = false;
@@ -39,6 +39,7 @@ function GameController(GameFactory, Pusher, $state, $interval){
     vm.currentGame = updatedGame;
     vm.currentQuestion = updatedGame.quiz;
     vm.endTurn = false;
+ 
     $state.go("game", {}, {reload: true});
   });
 
@@ -91,12 +92,10 @@ function GameController(GameFactory, Pusher, $state, $interval){
     if (correctAnswer) {
       correctAnswer.classList.add("correct");
     }
-    // document.getElementById("#quiz-answer").classList.remove("hide");
 
-    // debugger;
     vm.endTurn = true;
 
-    var safeword = setTimeout(function(){
+    var safeword = $timeout(function(){
       GameFactory.nextTurn(vm.currentGame).then(function(response){
         console.log(response);
       })
