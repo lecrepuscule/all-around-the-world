@@ -1,5 +1,4 @@
 var Country = require("../models/country.js");
-// var Quiz = require("../models/quiz.js");
 var Game = require("../models/game.js");
 
 var Pusher = require('pusher');
@@ -75,14 +74,6 @@ function recordScore(req, res){
         game.players[i].score = player.score;
         game.save(function(err, recordedGame){
           if (err) console.log(err);
-        // updatedGame.nextQuiz(function(nextQuiz){
-          // var gameStatus = {
-          //   _id: updatedGame._id,
-          //   players: updatedGame.players,
-          //   open: updatedGame.open,
-          //   quiz: nextQuiz,
-          // }
-          // pusher.trigger('games', 'recorded', gameStatus);
           res.json(recordedGame);   
         })
       }
@@ -96,24 +87,6 @@ function nextTurn(req, res){
     console.log("used quiz is: ")
     console.log(req.body);
     var usedQuiz = req.body;
-
-    // for (i=0; i<game.players.length; i++){
-    //   if (game.players[i].name === player.name && game.players[i].score !== player.score) {
-    //     game.players[i].score = player.score;
-    //     game.save(function(err, updatedGame){
-    //       if (err) console.log(err);
-    //       updatedGame.nextQuiz(function(nextQuiz){
-    //         var gameStatus = {
-    //           _id: updatedGame._id,
-    //           players: updatedGame.players,
-    //           open: updatedGame.open,
-    //           quiz: nextQuiz,
-    //         }
-    //         pusher.trigger('games', 'updated', gameStatus);
-    //         res.json(gameStatus);
-    //       }, usedQuiz);
-    //     })
-    //   } else {
     game.nextQuiz(function(nextQuiz){
       var gameStatus = {
         _id: game._id,
@@ -124,8 +97,6 @@ function nextTurn(req, res){
       pusher.trigger('games', 'updated', gameStatus);
       res.json(gameStatus);
     }, usedQuiz);
-  //     }
-  //   }
   })
 }
 
