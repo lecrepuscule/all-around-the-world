@@ -1,10 +1,31 @@
-<form ng-submit="gc.createGame()">
-    <label for="name">Name</label>
-    <input id="name" type="text" ng-model="gc.currentPlayer.name" placeholder="name">
-    <input class="button" type="submit" value="Host New Game">
-</form>
+<div class="row">
+  <div class="valign-wrapper">
+    <form class="valign" ng-submit="gc.createGame()">
+        <input class="white-text" id="name" type="text" ng-model="gc.currentPlayer.name" placeholder="Host Name">
+        <input class="white-text" type="submit" value="Host New Game">
+    </form>
+  </div>
+</div>
 
-<ul>
+<h1>Existing Games:</h1>
+
+ <div class="row">
+  <div ng-repeat="game in gc.games" class="col l3 m4 s12">
+    <div class="card orange darken-1">
+      <div class="card-content white-text">
+        <span class="card-title">Hosted by: {{ game.host }}</span>
+          <input class="white-text" ng-if="gc.stagedGame._id === game._id" name="playerName" type="text" ng-model="gc.currentPlayer.name" placeholder="Your Name">
+      </div>
+      <div class="card-action">
+        <a class="white-text" ng-if="gc.stagedGame._id !== game._id" ng-click="gc.stagedGame={ _id: game._id, players: game.players}" href="#">Join</a>
+        <a class="white-text" ng-if="gc.stagedGame._id === game._id" ng-click="gc.stagedGame={}" href="#">Cancel</a>
+        <a class="white-text" ng-if="gc.stagedGame._id === game._id" ng-click="gc.joinGame(game)" href="#">Confirm and Join</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <ul>
   <li ng-repeat="game in gc.games" ng-if="game.open">
     <p>hosted by: {{ game.host }}</p>
     <form ng-if="gc.stagedGame._id === game._id">
@@ -16,4 +37,4 @@
     <a ng-if="gc.stagedGame._id !== game._id" ng-click="gc.stagedGame={ _id: game._id, players: game.players}" href="#">Join</a>
     <button ng-if="gc.currentPlayer.name === game.host" ng-click="gc.deleteGame(game._id, $index)">Delete</button>
   </li>
-</ul>
+</ul> -->

@@ -15,13 +15,13 @@ angular.module("AAW")
           projection: 'mercator',
           fills: {
             // defaultFill: "#ABDDA4",
-            defaultFill: "black"
+            defaultFill: "darkorange"
           },
           responsive: true,
           geographyConfig: {
             highlightOnHover: true,
             popupOnHover: true,
-            highlightFillColor: 'orange'
+            highlightFillColor: 'white'
           },
           done: function(datamap) {
             var worldmap = this;
