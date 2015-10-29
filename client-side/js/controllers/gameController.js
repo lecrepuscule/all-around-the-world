@@ -1,9 +1,9 @@
 angular.module("AAW").controller("GameController", GameController);
 
-function GameController(GameFactory, Pusher, $state, $timeout){
+function GameController(GameFactory, Pusher, $state, $timeout, $scope){
   var vm = this;
   vm.games = [];
-  vm.endTurn = false;
+  // vm.endTurn = false;
 
   vm.currentPlayer = {
     name: null,
@@ -38,7 +38,9 @@ function GameController(GameFactory, Pusher, $state, $timeout){
     vm.currentPlayer.answer = null;
     vm.currentGame = updatedGame;
     vm.currentQuestion = updatedGame.quiz;
-    vm.endTurn = false;
+    document.getElementById("timer").classList.remove("hide");
+    document.getElementById("quiz-answer").classList.add("hide");
+    // vm.endTurn = false;
  
     $state.go("game", {}, {reload: true});
   });
@@ -89,17 +91,20 @@ function GameController(GameFactory, Pusher, $state, $timeout){
 
   vm.nextTurn = function(){
     var correctAnswer = document.getElementsByClassName(vm.currentQuestion.answer3Code)[0];
+    document.getElementById("timer").classList.add("hide");
+    document.getElementById("quiz-answer").classList.remove("hide");
     if (correctAnswer) {
       correctAnswer.classList.add("correct");
     }
 
-    vm.endTurn = true;
-
-    var safeword = $timeout(function(){
-      GameFactory.nextTurn(vm.currentGame).then(function(response){
+    // vm.endTurn = true;
+    if (vm.currentPlayer.name === vm.currentGame.host) {
+      var safeword = $timeout(function(){
+        GameFactory.nextTurn(vm.currentGame).then(function(response){
         console.log(response);
-      })
-    }, 3000)
+        })
+      }, 3000)
+    }   
   }
 
   vm.getGames();

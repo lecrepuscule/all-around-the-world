@@ -7,7 +7,7 @@ function GameFactory($q, $http){
   this.startGame = function(game){
     var deferred = $q.defer();
     $http
-      .get("http://34dc70fa.ngrok.io/api/games/" + game._id)
+      .get("http://3b368648.ngrok.io/api/games/" + game._id)
       .success(function(response){
         console.log(response)
         deferred.resolve(response);
@@ -25,7 +25,7 @@ function GameFactory($q, $http){
       score: 0
     }
     $http
-      .put("http://34dc70fa.ngrok.io/api/games/" + game._id , newPlayer)
+      .put("http://3b368648.ngrok.io/api/games/" + game._id , newPlayer)
       .success(function(response){
         console.log(response)
         deferred.resolve(response);
@@ -45,7 +45,7 @@ function GameFactory($q, $http){
       open: true
     };
     $http
-      .post("http://34dc70fa.ngrok.io/api/games",newGame)
+      .post("http://3b368648.ngrok.io/api/games",newGame)
       .success(function(response){
         deferred.resolve(response);
       })
@@ -58,7 +58,7 @@ function GameFactory($q, $http){
   this.getGames = function(){
     var deferred = $q.defer();
     $http
-      .get("http://34dc70fa.ngrok.io/api/games")
+      .get("http://3b368648.ngrok.io/api/games")
       .success(function(response){
         deferred.resolve(response);
       })
@@ -71,7 +71,7 @@ function GameFactory($q, $http){
   this.deleteGame = function(id){
     var deferred = $q.defer();
     $http
-    .delete("http://34dc70fa.ngrok.io/api/games/" + id)
+    .delete("http://3b368648.ngrok.io/api/games/" + id)
     .success(function(response){
         console.log(response);
         deferred.resolve(response);
@@ -87,7 +87,7 @@ function GameFactory($q, $http){
     console.log(gameStatus);
     var deferred = $q.defer();
     $http
-    .patch("http://34dc70fa.ngrok.io/api/games/" + gameStatus._id, gameStatus.quiz)
+    .patch("http://3b368648.ngrok.io/api/games/" + gameStatus._id, gameStatus.quiz)
     .success(function(response){
         console.log(response);
         deferred.resolve(response);
@@ -105,7 +105,7 @@ function GameFactory($q, $http){
       console.log("player score has become: " + player.score)
 
       $http
-      .post("http://34dc70fa.ngrok.io/api/games/" + gameStatus._id, player)
+      .post("http://3b368648.ngrok.io/api/games/" + gameStatus._id, player)
       .success(function(response){
           console.log(response);
           deferred.resolve(response);

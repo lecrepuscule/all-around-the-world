@@ -5,6 +5,9 @@ html body {
   /*color: white;*/
 }
 
+#title {
+  border-bottom: 1px solid white;
+}
 
 #quiz-question {
   font-family: 'Oswald', sans-serif;
@@ -13,18 +16,23 @@ html body {
 
 
 #scoreboard {
-  border-top: 1px solid white;
+  /*border-top: 1px solid white;*/
   font-size: 2em;
 }
 
 /*finish-callback="gc.nextTurn()"*/
+
+#title-full {
+  font-weight: Light 300;
+}
 
 .countdown-title{
   display:block;
 }
 
 #countdown {
-  width: 85%;
+  height: 30%;
+  width: 88%;
   position: absolute;
   bottom: 0;
   border-top: 1px solid white;
@@ -46,15 +54,6 @@ html body {
   text-align: center;
 }
 
-/*#map {*/
-  /*display: inline-block;*/
-  /*position: relative; */
-/*  width: 100%; 
-  height: 50%;*/
-/*  border: solid black;
-  border-width: 1px;*/
-/*}*/
-
 
 #side-bar {
   display: inline-block;
@@ -67,6 +66,7 @@ html body {
   right: 0;
   bottom: 0;
   padding: 1.5em;
+  width: 15%;
 }
 
 body {
@@ -75,9 +75,6 @@ body {
   /*background-color: black;*/
 }
 
-/*.word {
-  font-color: white;
-}*/
 
 .correct {
   background-color: green !important;

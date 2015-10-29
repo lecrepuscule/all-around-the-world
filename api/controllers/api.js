@@ -55,6 +55,7 @@ function startGame(req, res){
           _id: initiatedGame._id,
           players: initiatedGame.players,
           open: initiatedGame.open,
+          host: initiatedGame.host,
           quiz: nextQuiz
         }
         pusher.trigger('games', 'started', gameStatus);
@@ -89,10 +90,11 @@ function nextTurn(req, res){
     var usedQuiz = req.body;
     game.nextQuiz(function(nextQuiz){
       var gameStatus = {
+        host: game.host,
         _id: game._id,
         players: game.players,
         open: game.open,
-        quiz: nextQuiz,
+        quiz: nextQuiz
       }
       pusher.trigger('games', 'updated', gameStatus);
       res.json(gameStatus);
