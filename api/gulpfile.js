@@ -66,34 +66,6 @@ gulp.task("scrape", function(){
           })
         })
       })
-
-
-      // url = 'http://jservice.io/popular/1079';
-      // url = 'http://jservice.io/popular/42';
-      // request(url, function(error, response, html){
-      //   if(!error){
-      //     var $ = cheerio.load(html);
-      //     $('tbody').filter(function(){
-      //       var data = $(this)
-      //       Country.distinct("name", function(err, countries){
-      //         if (err) console.log(err)
-      //         console.log(countries)
-
-      //         for (i=1; i<data["0"].children.length; i+=2){
-      //           var question = data["0"].children[i].children[1].children[0].data
-      //           var answer = data["0"].children[i].children[3].children[0].data 
-
-      //           // console.log("question index: " + countries.indexOf(question))
-      //           // console.log("question index: " + countries.indexOf(answer))
-      //           if ((countries.indexOf(question) !== -1) || (countries.indexOf(answer) !== -1)) {
-      //             console.log(question)
-      //             console.log(answer)
-      //           }    
-      //         }
-      //       })
-      //     })
-      //   }
-      // })
     }
   })
 })
@@ -140,5 +112,35 @@ function scrapeJService(j, results){
     console.log("complete");
   }
 }
+
+gulp.task("populateQuizCountryCode", function(){
+  var populatedQuizzes = [];
+  Quiz.find({}, function(err, quizzes){
+    if (err) console.log(err);
+    quizzes.forEach(function(quiz){
+      Country.find({name: quiz.answer}, function(err, country){
+        quiz.answer2Code = country["0"].alpha2Code;
+        quiz.answer3Code = country["0"].alpha3Code;
+        console.log(typeof country);
+        console.log(Object.keys(country));
+        console.log("country is :" + country["0"])
+        console.log("country name is: " + country["0"].name)
+        console.log("countryCode is :" + country["0"].alpha3Code)
+
+        console.log("added code: " + quiz.answer3Code);
+        populatedQuizzes.push(quiz);
+        if (populatedQuizzes.length === quizzes.length){
+          populatedQuizzes.forEach(function(populatedQuiz){
+            populatedQuiz.save(function(err, savedQuiz){
+              if (err) console.log(err)
+                console.log(savedQuiz);
+            })
+          })
+        }
+      })
+    })
+
+  })
+})
 
 // gulp.task("default", ["scripts", "styles"]);
