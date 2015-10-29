@@ -29,6 +29,7 @@ function GameController(GameFactory, Pusher, $state, $interval){
     console.log(startedGame);
     vm.currentGame = startedGame;
     vm.currentQuestion = startedGame.quiz;
+    $state.go("game");
   });
 
   Pusher.subscribe('games', 'updated', function (updatedGame) {
@@ -75,7 +76,7 @@ function GameController(GameFactory, Pusher, $state, $interval){
 
   vm.startGame = function(game){
     GameFactory.startGame(game).then(function(response){
-      $state.go("game");
+      // $state.go("game");
     })
   }
 
@@ -90,6 +91,9 @@ function GameController(GameFactory, Pusher, $state, $interval){
     if (correctAnswer) {
       correctAnswer.classList.add("correct");
     }
+    // document.getElementById("#quiz-answer").classList.remove("hide");
+
+    // debugger;
     vm.endTurn = true;
 
     var safeword = setTimeout(function(){

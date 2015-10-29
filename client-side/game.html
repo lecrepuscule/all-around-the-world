@@ -1,11 +1,22 @@
+<div class="row">  
   <div map id="map"></div>
+
   <ul>
     <li ng-repeat="player in gc.currentGame.players">
       {{ player.name }}: {{ player.score }}
     </li>
   </ul>
-  <h1>{{ gc.currentQuestion.question }}</h1>
+  
+</div>
 
-  <h1 ng-if="gc.endTurn">{{ gc.currentQuestion.answer }}</h1>
+<div class="row"> 
+  <div class="col l9 m8 s12"> 
+  <p>{{ gc.currentQuestion.question }}</p>
 
-  <timer countdown="10" interval="1000" finish-callback="gc.nextTurn()">{{seconds}}</timer>
+  <h5 id="quiz-answer" class="hide">{{ gc.currentQuestion.answer }}</h5>
+  </div>
+  <div class="col l3 m4 s12">
+    <timer countdown="10" interval="1000" finish-callback="gc.nextTurn()">
+    <h4>{{seconds}}</h4></timer>
+  </div>
+</div>
