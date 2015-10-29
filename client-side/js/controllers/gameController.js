@@ -36,7 +36,7 @@ function GameController(GameFactory, Pusher, $state, $interval){
     vm.currentPlayer.answer = null;
     vm.currentGame = updatedGame;
     vm.currentQuestion = updatedGame.quiz;
-    $state.go("game");
+    $state.go("game", {}, {reload: true});
   });
 
   vm.getGames = function(){
