@@ -176,8 +176,8 @@ gulp.task("makeFlagQuizzes", function(){
           console.log(createdQuiz);
         })
       }
-    }
+    })
   })
-}
+})
 
 // gulp.task("default", ["scripts", "styles"]);
