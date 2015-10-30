@@ -15,6 +15,7 @@ var countrySchema = new mongoose.Schema({
   alpha3Code: String,
   currencies: [String],
   languages: [String],
+  flag: String,
   woeid: Number
 });
 

@@ -4,7 +4,8 @@ var cheerio = require("cheerio");
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/AAW');
 var Country = require("./models/country.js")
-var Quiz = require("./models/quiz.js")
+var Quiz = require("./models/quiz.js");
+var AWS = require('aws-sdk');
 
 gulp.task("scrape", function(){
   var indexUrl = "http://jservice.io/popular";
@@ -121,13 +122,7 @@ gulp.task("populateQuizCountryCode", function(){
       Country.find({name: quiz.answer}, function(err, country){
         quiz.answer2Code = country["0"].alpha2Code;
         quiz.answer3Code = country["0"].alpha3Code;
-        console.log(typeof country);
-        console.log(Object.keys(country));
-        console.log("country is :" + country["0"])
-        console.log("country name is: " + country["0"].name)
-        console.log("countryCode is :" + country["0"].alpha3Code)
 
-        console.log("added code: " + quiz.answer3Code);
         populatedQuizzes.push(quiz);
         if (populatedQuizzes.length === quizzes.length){
           populatedQuizzes.forEach(function(populatedQuiz){
@@ -142,8 +137,29 @@ gulp.task("populateQuizCountryCode", function(){
   })
 })
 
-gulp.task("populateQuizCountryCode", function(){
+gulp.task("populateFlagUrls", function(){
+  var availableFlags = ["ad","ae","af","ag","al","am","ao","ar","at","au","az","ba","bb","bd","be","bf","bg","bh","bi","bj","bn","bo","br","bs","bt","bw","by","bz","ca","cd","cf","cg","ch","ci","cl","cm","cn","co","cr","cu","cv","cy","cz","de","dj","dk","dm","do","dz","ec","ee","eg","eh","er","es","et","fi","fj","fm","fr","ga","gb","gd","ge","gh","gm","gn","gq","gr","gt","gw","gy","hn","hr","ht","hu","id","ie","il","in","iq","ir","is","it","jm","jo","jp","ke","kg","kh","ki","km","kn","kp","kr","ks","kw","kz","la","lb","lc","li","lk","lr","ls","lt","lu","lv","ly","ma","mc","md","me","mg","mh","mk","ml","mm","mn","mr","mt","mu","mv","mw","mx","my","mz","na","ne","ng","ni","nl","no","np","nr","nz","om","pa","pe","pg","ph","pk","pl","pt","pw","py","qa","ro","rs","ru","rw","sa","sb","sc","sd","se","sg","si","sk","sl","sm","sn","so","sr","st","sv","sy","sz","td","tg","th","tj","tl","tm","tn","to","tr","tt","tv","tw","tz","ua","ug","us","uy","uz","va","vc","ve","vn","vu","ws","ye","za","zm","zw"];
+  var populatedCountries=[];
   
-}
+  Country.find({}, function(err, countries){
+    countries.forEach(function(country){
 
+      if (availableFlags.indexOf(country.alpha2Code.toLowerCase()) !== -1){
+        var flagUrl = "https://s3-eu-west-1.amazonaws.com/allaroundtheworld/" + country.alpha2Code.toLowerCase() + ".png"
+        console.log(country.alpha2Code);
+        console.log(typeof country);
+        country.flag = flagUrl;
+        populatedCountries.push(country);
+        // if (populatedCountries.length === availableFlags.length){
+        //   populatedCountries.forEach(function(populatedCountry){
+            country.save(function(err, savedCountry){
+              if (err) console.log(err)
+                console.log(savedCountry);
+            })
+        //   })
+        // }
+      }
+    })
+  })
+})
 // gulp.task("default", ["scripts", "styles"]);
