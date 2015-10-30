@@ -150,16 +150,34 @@ gulp.task("populateFlagUrls", function(){
         console.log(typeof country);
         country.flag = flagUrl;
         populatedCountries.push(country);
-        // if (populatedCountries.length === availableFlags.length){
-        //   populatedCountries.forEach(function(populatedCountry){
-            country.save(function(err, savedCountry){
-              if (err) console.log(err)
-                console.log(savedCountry);
-            })
-        //   })
-        // }
+        country.save(function(err, savedCountry){
+          if (err) console.log(err)
+            console.log(savedCountry);
+        })
       }
     })
   })
 })
+
+gulp.task("makeFlagQuizzes", function(){
+  Country.find({}, function(err, countries){
+    countries.forEach(function(country){
+      if (country.flag) {
+        var flagQuiz = {
+          question: "This is the flag of which country?",
+          info: country.flag,
+          answer: country.name,
+          answer2Code: country.alpha2Code,
+          answer3Code: country.alpha3Code
+        }
+        Quiz.create(flagQuiz, function(err, createdQuiz){
+          if (err) console.log(err);
+          console.log("created quiz: ");
+          console.log(createdQuiz);
+        })
+      }
+    }
+  })
+}
+
 // gulp.task("default", ["scripts", "styles"]);

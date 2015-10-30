@@ -23,15 +23,20 @@
           <p class="countdown-title">countdown</p>
           <h1 id="countdown-seconds">{{seconds}}</h1>
         </timer>
-        <div class="valign-wrapper">
-          <h5 class="hide valign" id="quiz-answer">{{ gc.currentQuestion.answer }}</h5>
-        </div>
+        <h5 class="hide" id="quiz-answer">{{ gc.currentQuestion.answer }}</h5>
       </div>
     </aside>
   </div>
 
-
   <div id="quiz" class="col l10 m8 s12"> 
-    <h4 id="quiz-question">{{ gc.currentQuestion.question }}</h4> 
+    <!-- <div ng-if="gc.currentQuestion.info" class="col l5 m6 s6"> -->
+      <!-- <img id="quiz-image" class="left-align" ng-show="gc.currentQuestion.info" ng-src="{{ gc.currentQuestion.info }}"> -->
+    <!-- </div> -->
+    <!-- <div ng-if="gc.currentQuestion.info" class="col l7 m6 s6"> -->
+      <h4 id="quiz-question">
+        <img class="left-align" id="quiz-image" class="left-align" ng-if="gc.currentQuestion.info" ng-src="{{ gc.currentQuestion.info }}">
+        <span id="quiz-text">{{ gc.currentQuestion.question }}</span>
+      </h4>
+    <!-- </div> -->
   </div>
 </div>

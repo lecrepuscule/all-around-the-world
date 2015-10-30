@@ -1,8 +1,8 @@
 <div class="row">
   <div class="valign-wrapper">
-    <form class="valign" ng-submit="gc.createGame()">
-        <input class="white-text" id="name" type="text" ng-model="gc.currentPlayer.name" placeholder="Host Name">
-        <input class="white-text" type="submit" value="Host New Game">
+    <form class="valign">
+        <input class="white-text" id="name" type="text" ng-model="gc.currentPlayer.name" placeholder="Enter Host Name">
+        <a ng-click="gc.createGame()" class="white-text" href="#">Host New Game</a>
     </form>
   </div>
 </div>

@@ -1,9 +1,14 @@
-<h1>Staging Area</h1>
+<h1>Waiting to start...</h1>
 
-<p>Host: {{ gc.currentGame.host }}</p>
-<p>Players: </p>
-<p ng-repeat="player in gc.currentGame.players">{{ player.name }}</p>
+<h3 class="white-text">Host: 
+  <span class="orange-text">{{ gc.currentGame.host }}</span>
+</h3>
 
-<button ng-if="gc.currentPlayer.name === gc.currentGame.host" ng-click="gc.startGame(gc.currentGame)">Start Game</button>
+<h3 class="white-text">Players: </h3>
+<ul class="collection">
+  <li class="orange-text collection-item" ng-repeat="player in gc.currentGame.players">{{ player.name }}</li>
+</ul>
 
-<button ng-if="gc.currentPlayer.name === gc.currentGame.host" ng-click="gc.abortGame(gc.currentGame)">Abort</button>
+<a class="white-text" href="#" ng-if="gc.currentPlayer.name === gc.currentGame.host" ng-click="gc.startGame(gc.currentGame)">Start Game</a>
+
+<a class="white-text" href="#" ng-if="gc.currentPlayer.name === gc.currentGame.host" ng-click="gc.abortGame(gc.currentGame)">Abort</a>

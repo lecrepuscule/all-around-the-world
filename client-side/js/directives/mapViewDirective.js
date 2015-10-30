@@ -10,11 +10,8 @@ angular.module("AAW")
         console.log(element[0])
         var map = new Datamap({
           element: element[0],
-          // height: 400,
-          // width: 1000,
           projection: 'mercator',
           fills: {
-            // defaultFill: "#ABDDA4",
             defaultFill: "darkorange"
           },
           responsive: true,

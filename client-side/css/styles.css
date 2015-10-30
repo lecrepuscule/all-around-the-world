@@ -12,15 +12,25 @@ html body {
 #quiz-question {
   font-family: 'Oswald', sans-serif;
   color: darkorange;
+  display: inline-block;
 }
 
+#quiz-image {
+  z-index: 3;
+  height: 15%;
+  width: 15%;
+  display: inline-block;
+}
+
+#quiz-text {
+  display: inline-block;
+  vertical-align: top;
+}
 
 #scoreboard {
-  /*border-top: 1px solid white;*/
   font-size: 2em;
 }
 
-/*finish-callback="gc.nextTurn()"*/
 
 #title-full {
   font-weight: Light 300;
@@ -72,18 +82,19 @@ html body {
 body {
   height: 100%;
   width: 100%;
-  /*background-color: black;*/
+  background-color: black;
 }
 
+#map {
+  height: 90%;
+}
 
 .correct {
-  background-color: green !important;
   fill: green !important;
 }
 
 .playerAnswer {
-  background-color: blue !important;
-  fill: blue !important;
+  fill: darkorchid !important;
 }
 
 svg {

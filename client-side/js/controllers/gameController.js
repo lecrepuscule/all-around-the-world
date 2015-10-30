@@ -3,7 +3,7 @@ angular.module("AAW").controller("GameController", GameController);
 function GameController(GameFactory, Pusher, $state, $timeout, $scope){
   var vm = this;
   vm.games = [];
-  // vm.endTurn = false;
+ 
 
   vm.currentPlayer = {
     name: null,
@@ -11,7 +11,7 @@ function GameController(GameFactory, Pusher, $state, $timeout, $scope){
     answer: null
   };
   vm.currentGame;
-  vm.currentQuestion;
+  // vm.currentQuestion;
 
   Pusher.subscribe('games', 'created', function (newGame) {
     console.log("creating game triggered pusher")
@@ -40,7 +40,6 @@ function GameController(GameFactory, Pusher, $state, $timeout, $scope){
     vm.currentQuestion = updatedGame.quiz;
     document.getElementById("timer").classList.remove("hide");
     document.getElementById("quiz-answer").classList.add("hide");
-    // vm.endTurn = false;
  
     $state.go("game", {}, {reload: true});
   });
@@ -79,7 +78,6 @@ function GameController(GameFactory, Pusher, $state, $timeout, $scope){
 
   vm.startGame = function(game){
     GameFactory.startGame(game).then(function(response){
-      // $state.go("game");
     })
   }
 
